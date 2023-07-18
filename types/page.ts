@@ -1,5 +1,6 @@
-import { Panel } from "./panel";
+import { IPanel } from "./panel";
 
-export interface Page {
-  panels: Array<Panel>;
+export interface IPage {
+  readonly id: string;
+  panels: Array<IPanel>;
 }
