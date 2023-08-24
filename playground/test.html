@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Test</title>
+  </head>
+  <body>
+    <script type="importmap">
+      {
+        "imports": {
+          "vue": "https://unpkg.com/vue@3/dist/vue.esm-browser.js",
+          "free-survey": "../dist/index.js"
+        }
+      }
+    </script>
+
+    <div id="app">
+      <div>{{ message }}</div>
+      <br />
+      <div>{{ survey }}</div>
+      <button @click="onClick">add</button>
+    </div>
+
+    <script type="module">
+      import { createApp, ref } from "vue";
+      import { Survey, Page, QuestionGroup } from "free-survey";
+
+      createApp({
+        setup() {
+          const message = ref("Hello Vue!");
+          const survey = ref(new Survey());
+
+          const onClick = () => {
+            const page = new Page();
+            survey.value.pages.push(page);
+          };
+
+          return {
+            message,
+            survey,
+            onClick,
+          };
+        },
+      }).mount("#app");
+    </script>
+  </body>
+</html>

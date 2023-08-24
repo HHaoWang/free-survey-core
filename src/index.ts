@@ -1,16 +1,11 @@
-import { IPage } from "../types/page";
-import { IQuestion } from "../types/question";
-import { ISurvey } from "../types/survey";
-
-class Survey implements ISurvey {
-  currentPage: IPage;
-  moveToNextPage: () => void;
-  moveToPrePage: () => void;
-  isValidForm: () => string | true;
-  getQuestionByName: (questionName: string) => IQuestion | null;
-  answer: object;
-  id: string;
-  pages: Array<IPage>;
-  public title: string;
-  public description: string;
-}
+export { Survey } from "./Survey";
+export { QuestionGroup } from "./QuestionGroup";
+export { Page } from "./Page";
+export { AbstractQuestion } from "../types/AbstractQuestion";
+export type { QuestionType, QuestionInfo } from "../types/AbstractQuestion";
+export { SingleTextQuestion } from "./questions/SingleTextQuestion";
+export { RadioGroupQuestion } from "./questions/RadioGroupQuestion";
+export type { ElementType, PageElementType, IdGenerator } from "../types/AbstractElement";
+export { AbstractElement } from "../types/AbstractElement";
+export { AbstractPageElement } from "../types/AbstractPageElement";
+export { AbstractPage } from "../types/AbstractPage";
