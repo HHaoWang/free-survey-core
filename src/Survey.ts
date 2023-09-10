@@ -1,5 +1,6 @@
 import { AbstractPage, AbstractQuestion, AbstractQuestionGroup, AbstractSurvey } from "../types";
 import { AbstractElement, IdGenerator } from "../types/AbstractElement";
+import * as console from "console";
 
 export class Survey extends AbstractSurvey {
   moveToNextPage = () => {};
@@ -84,7 +85,10 @@ export class Survey extends AbstractSurvey {
         parent: this,
       };
     }
-    const targetElementPage = allElements.slice(0, targetElementIndex).filter((element) => element.type === "page")[-1];
+    const targetElementPage = allElements
+      .slice(0, targetElementIndex)
+      .filter((element) => element.type === "page")
+      .slice(-1)[0];
     if (targetElement.type === "questionGroup") {
       // 前序遍历情况下题组所在的页面为题组元素之前的最后一个页面
       return {
@@ -113,8 +117,8 @@ export class Survey extends AbstractSurvey {
     throw Error("找不到该元素！所查元素信息:" + idOrElement);
   };
 
-  deleteElement = (id: string): boolean => {
-    const targetElementInfo = this.getElementWithExtraInfos(id);
+  deleteElement = (idOrElement: string | AbstractElement): boolean => {
+    const targetElementInfo = this.getElementWithExtraInfos(idOrElement);
     if (targetElementInfo === null) {
       return true;
     }
@@ -141,9 +145,7 @@ export class Survey extends AbstractSurvey {
     if (index < 0) {
       return true;
     }
-
     list.splice(index, 1);
-
-    return false;
+    return true;
   };
 }
