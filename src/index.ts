@@ -9,3 +9,4 @@ export type { ElementType, PageElementType, IdGenerator } from "../types/Abstrac
 export { AbstractElement } from "../types/AbstractElement";
 export { AbstractPageElement } from "../types/AbstractPageElement";
 export { AbstractPage } from "../types/AbstractPage";
+export { AbstractQuestionGroup } from "../types/AbstractQuestionGroup";
