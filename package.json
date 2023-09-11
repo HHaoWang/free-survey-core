@@ -1,6 +1,6 @@
 {
   "name": "free-survey-core",
-  "version": "1.0.4",
+  "version": "1.1.0",
   "description": "A free survey/questionnaire library supporting you build your own implementation of form builder or parser.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -18,7 +18,8 @@
   "keywords": [
     "free-survey-core",
     "survey",
-    "questionnaire"
+    "questionnaire",
+    "问卷"
   ],
   "author": "HHao",
   "license": "Apache-2.0",

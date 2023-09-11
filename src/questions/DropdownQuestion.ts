@@ -1,23 +1,25 @@
 import { AbstractQuestion, KeyValuePair, QuestionInfo } from "../../types";
 
-export class RadioGroupQuestion extends AbstractQuestion {
+export class DropdownQuestion extends AbstractQuestion {
   /**
    * 可选选项
    */
   choices: Array<KeyValuePair> = [];
+
   /**
-   * 记录选项的键而非值，若allowOther为true则记录“其它”中填写的内容
+   * 记录选项的键而非值
    */
-  declare answer: string;
+  declare answer: Array<string>;
+
   /**
-   * 是否允许“其它”选项
+   * 是否允许多选
    */
-  allowOther: boolean;
+  allowMultipleAnswers: boolean;
 
   constructor(
     options: Partial<
       QuestionInfo & {
-        allowOther: boolean;
+        allowMultipleAnswers: boolean;
       }
     > = {},
   ) {
@@ -30,10 +32,10 @@ export class RadioGroupQuestion extends AbstractQuestion {
       description: "问题描述",
       isShown: true,
       isRequired: false,
-      allowOther: false,
+      allowMultipleAnswers: false,
       ...options,
     };
-    super("radioGroup", option);
-    this.allowOther = option.allowOther;
+    super("dropdown", option);
+    this.allowMultipleAnswers = option.allowMultipleAnswers;
   }
 }

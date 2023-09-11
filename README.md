@@ -2,14 +2,24 @@
 
 Free Survey Core是一个免费、开源的调查问卷库，它提供一个实现问卷功能的抽象类库和一个默认的实现，通过它你可以创建自己的问卷设计工具或是问卷功能实现而无需自己再进行问卷概念的抽象。
 
+![npm](https://img.shields.io/npm/dt/free-survey-core?label=NPM&link=https%3A%2F%2Fwww.npmjs.com%2Fpackage%2Ffree-survey-core)
+![NPM](https://img.shields.io/npm/l/free-survey-core)
+![GitHub top language](https://img.shields.io/github/languages/top/HHaoWang/free-survey-core)
+
+## 安装
+
+```shell
+npm install free-survey-core
+```
+
 ## 用法
 
 ```typescript
-import { Survey } from "./Survey";
-import { AbstractPage } from "./AbstractPage";
-import { Page } from "./Page";
-import { QuestionGroup } from "./QuestionGroup";
-import { SingleTextQuestion } from "./SingleTextQuestion";
+import { Survey } from "free-survey-core";
+import { AbstractPage } from "free-survey-core";
+import { Page } from "free-survey-core";
+import { QuestionGroup } from "free-survey-core";
+import { SingleTextQuestion } from "free-survey-core";
 
 const survey = new Survey();
 const page = new Page();
@@ -41,15 +51,21 @@ import { ElementType, PageElementType } from "free-survey-core";
 
 free-survey-core 主要的责任在于对调查问卷的抽象和数据的存储而非功能实现，因而其包含的功能较为有限。
 
+## 扩展
+
+若需要对题型进行扩展，继承 `AbstractQuestion` 即可。
+
 ## 支持的问题类型
 
-| 问题类型 | 是否支持 | 是否规划 |
-|:----:|:----:|:----:|
-| 单项选择 |  ✅   |      |
-| 多项选择 |  ✅   |      |
-| 文本问答 |  ✅   |      |
-| 下拉选择 |  ✅   |      |
-| 时间选择 |  ❌   |  ✅   |
+|       问题类型       | 是否支持 | 是否规划 |
+| :------------------: | :------: | :------: |
+| 单项选择(RadioGroup) |    ✅    |          |
+|  多项选择(CheckBox)  |    ✅    |          |
+| 文本问答(SingleText) |    ✅    |          |
+|  下拉选择(Dropdown)  |    ✅    |          |
+|    时间选择(Time)    |    ✅    |          |
+|   分割线(Splitter)   |    ✅    |          |
+|      文件(File)      |    ❌    |    ✅    |
 
 ## 反馈建议
 
@@ -61,4 +77,4 @@ free-survey-core 目前仍处于非常早期的版本，主要专注于基础实
 
 ## 交流与沟通
 
-如果你有沟通和交流的意愿，欢迎你发送邮件至 `work@hhao.wang` 。 
+如果你有沟通和交流的意愿，欢迎你发送邮件至 `work@hhao.wang` 。

@@ -12,7 +12,7 @@ export interface QuestionInfo {
   isDecoration: boolean;
 }
 
-export type QuestionType = "singleText" | "dropdown" | "radioGroup" | "checkbox" | "file" | "splitter";
+export type QuestionType = "singleText" | "dropdown" | "radioGroup" | "checkbox" | "file" | "splitter" | "time";
 
 export abstract class AbstractQuestion extends AbstractPageElement implements QuestionInfo {
   /**
