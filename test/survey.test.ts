@@ -56,6 +56,28 @@ test("问卷元素查找", () => {
   });
 });
 
+test("问卷答案获取测试", () => {
+  singleText1.answer = "test answer 1";
+  st2.answer = "test answer 2";
+  const answer = survey.getAnswer();
+  const flattenedAnswer = survey.getAnswerFlattened();
+  expect(flattenedAnswer).toStrictEqual({
+    [singleText1.id]: singleText1.answer,
+    [st2.id]: st2.answer,
+  });
+  expect(answer).toStrictEqual({
+    [page1.id]: {
+      [questionGroup1.id]: {},
+      [qg2.id]: {
+        [singleText1.id]: singleText1.answer,
+      },
+    },
+    [page2.id]: {
+      [st2.id]: st2.answer,
+    },
+  });
+});
+
 test("问卷元素删除测试", () => {
   let result = survey.deleteElement(singleText1.id);
   expect(result).toBe(true);

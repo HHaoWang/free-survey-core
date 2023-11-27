@@ -1,10 +1,17 @@
 import { AbstractPage, AbstractQuestion, AbstractQuestionGroup, AbstractSurvey } from "../types";
 import { AbstractElement, IdGenerator } from "../types/AbstractElement";
-import * as console from "console";
 
 export class Survey extends AbstractSurvey {
-  moveToNextPage = () => {};
-  moveToPrePage = () => {};
+  moveToNextPage = () => {
+    if (this.pages.length === 0) {
+      return;
+    }
+  };
+  moveToPrePage = () => {
+    if (this.pages.length === 0) {
+      return;
+    }
+  };
 
   isValidForm = () => {
     return "";
@@ -147,5 +154,24 @@ export class Survey extends AbstractSurvey {
     }
     list.splice(index, 1);
     return true;
+  };
+
+  getAnswer = () => {
+    const answer: { [key: string]: any } = {};
+    for (const page of this.pages) {
+      answer[page.id] = page.getAnswer();
+    }
+    return answer;
+  };
+
+  getAnswerFlattened = () => {
+    let answer: { [key: string]: any } = {};
+    for (const page of this.pages) {
+      answer = {
+        ...answer,
+        ...page.getAnswerFlattened(),
+      };
+    }
+    return answer;
   };
 }

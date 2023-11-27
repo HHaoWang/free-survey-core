@@ -29,6 +29,9 @@ const questionGroup = new QuestionGroup();
 const singleTextQuestion = new SingleTextQuestion({ title: "a single text question" });
 questionGroup.questions.push(singleTextQuestion);
 page.elements.push(questionGroup);
+
+const answer = survey.getAnswer();
+const answerFlattened = survey.getAnswerFlattened();
 ```
 
 ## 设计思路
@@ -57,15 +60,16 @@ free-survey-core 主要的责任在于对调查问卷的抽象和数据的存储
 
 ## 支持的问题类型
 
-|       问题类型       | 是否支持 | 是否规划 |
-| :------------------: | :------: | :------: |
-| 单项选择(RadioGroup) |    ✅    |          |
-|  多项选择(CheckBox)  |    ✅    |          |
-| 文本问答(SingleText) |    ✅    |          |
-|  下拉选择(Dropdown)  |    ✅    |          |
-|    时间选择(Time)    |    ✅    |          |
-|   分割线(Splitter)   |    ✅    |          |
-|      文件(File)      |    ❌    |    ✅    |
+|         问题类型          | 是否支持 | 是否规划 |
+|:---------------------:|:----:|:----:|
+|   单项选择(RadioGroup)    |  ✅   |      |
+|    多项选择(CheckBox)     |  ✅   |      |
+|   文本问答(SingleText)    |  ✅   |      |
+|    下拉选择(Dropdown)     |  ✅   |      |
+|   时间选择(TimePicker)    |  ✅   |      |
+| 时间段选择(TimeSpanPicker) |  ✅   |      |
+|     分割线(Splitter)     |  ✅   |      |
+|       文件(File)        |  ❌   |  ✅   |
 
 ## 反馈建议
 
@@ -77,4 +81,8 @@ free-survey-core 目前仍处于非常早期的版本，主要专注于基础实
 
 ## 交流与沟通
 
-如果你有沟通和交流的意愿，欢迎你发送邮件至 `work@hhao.wang` 。
+如果你有沟通和交流的意愿，欢迎你发送邮件至 <work@hhao.wang>。
+
+## 开源协议
+
+[Apache 2.0](LICENSE) &copy; HHao

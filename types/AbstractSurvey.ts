@@ -9,10 +9,11 @@ export abstract class AbstractSurvey extends AbstractElement {
   pages: Array<AbstractPage> = new Array<AbstractPage>();
   currentPageNum: Number | null = null;
   currentPage: AbstractPage | null = null;
+
   abstract moveToNextPage: () => void;
   abstract moveToPrePage: () => void;
   abstract isValidForm: () => true | string;
-  answer: object | null = null;
+
   abstract getAllElements: () => Array<AbstractElement>;
   abstract getElement: (id: string) => AbstractElement | null;
   abstract getElementWithExtraInfos: (
@@ -22,6 +23,8 @@ export abstract class AbstractSurvey extends AbstractElement {
   abstract getAllQuestionGroups: () => Array<AbstractQuestionGroup>;
   abstract getAllQuestions: () => Array<AbstractQuestion>;
   abstract deleteElement: (id: string) => boolean;
+  abstract getAnswer: () => { [key: string]: any };
+  abstract getAnswerFlattened: () => { [key: string]: any };
 
   protected constructor(type: ElementType, idGenerator: IdGenerator | null = null) {
     super(type, idGenerator);
