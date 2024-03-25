@@ -7,7 +7,7 @@ export class TimePickerQuestion extends AbstractTimePickerQuestion {
    */
   declare answer: string;
 
-  constructor(options: Partial<QuestionInfo & TimePickerQuestionInfo> = {}) {
+  constructor(id: string | null = null, options: Partial<QuestionInfo & TimePickerQuestionInfo> = {}) {
     const option = {
       isDecoration: false,
       title: "问题",
@@ -25,6 +25,6 @@ export class TimePickerQuestion extends AbstractTimePickerQuestion {
       notAfter: null,
       ...options,
     };
-    super("timePicker", option);
+    super("timePicker", option, id);
   }
 }

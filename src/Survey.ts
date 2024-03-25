@@ -1,24 +1,15 @@
 import { AbstractPage, AbstractQuestion, AbstractQuestionGroup, AbstractSurvey } from "../types";
-import { AbstractElement, IdGenerator } from "../types/AbstractElement";
+import { AbstractElement } from "../types/AbstractElement";
+import * as console from "console";
+import { Page } from "./Page";
 
 export class Survey extends AbstractSurvey {
-  moveToNextPage = () => {
-    if (this.pages.length === 0) {
-      return;
-    }
-  };
-  moveToPrePage = () => {
-    if (this.pages.length === 0) {
-      return;
-    }
-  };
-
   isValidForm = () => {
     return "";
   };
 
-  constructor(title: string | null = null, description: string | null = null, idGenerator: IdGenerator | null = null) {
-    super("survey", idGenerator);
+  constructor(title: string | null = null, description: string | null = null, id: string | null = null) {
+    super(id);
     this.title = title ? title : "问卷标题";
     this.description = description ? description : "感谢您能抽出几分钟时间来参加本次答题，现在我们就马上开始吧！";
   }
@@ -66,6 +57,10 @@ export class Survey extends AbstractSurvey {
   getElement = (id: string): AbstractElement | null =>
     this.getAllElements().find((element) => element.id === id) ?? null;
 
+  /**
+   * 获取目标题目及其父项
+   * @param idOrElement 模板题目ID或元素
+   */
   getElementWithExtraInfos = (
     idOrElement: string | AbstractElement,
   ): {
@@ -174,4 +169,43 @@ export class Survey extends AbstractSurvey {
     }
     return answer;
   };
+
+  isValid = (): true | string => {
+    return true;
+  };
+
+  exportToJson(): string {
+    return JSON.stringify(this);
+  }
+
+  importFromJson(jsonContent: string): void {
+    try {
+      let obj = JSON.parse(jsonContent);
+      if (obj["type"] !== "survey") {
+        throw Error("解析失败，此Json字符串不包含问卷内容！");
+      }
+      if (
+        !(typeof obj["id"] === "string" && typeof obj["title"] === "string" && typeof obj["description"] === "string")
+      ) {
+        throw Error("解析失败，此Json字符串没有包含问卷所需内容！");
+      }
+      this.id = obj["id"];
+      this.title = obj["title"];
+      this.description = obj["description"];
+      this.pages = [];
+      if (!Array.isArray(obj["pages"])) {
+        return;
+      }
+      for (const page of obj["pages"]) {
+        this.pages.push(Page.Parse(page));
+      }
+    } catch (e) {
+      if (e instanceof SyntaxError) {
+        throw Error("解析失败，不是有效的Json格式！", {
+          cause: e,
+        });
+      }
+      throw e;
+    }
+  }
 }

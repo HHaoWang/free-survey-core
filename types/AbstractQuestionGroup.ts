@@ -1,6 +1,5 @@
 import { AbstractQuestion } from "./AbstractQuestion";
 import { AbstractPageElement } from "./AbstractPageElement";
-import { IdGenerator } from "./AbstractElement";
 
 export abstract class AbstractQuestionGroup extends AbstractPageElement {
   readonly questions: Array<AbstractQuestion> = new Array<AbstractQuestion>();
@@ -11,8 +10,8 @@ export abstract class AbstractQuestionGroup extends AbstractPageElement {
   abstract getAnswer: () => { [key: string]: any };
   abstract getAnswerFlattened: () => { [key: string]: any };
 
-  protected constructor(title: string, description: string, idGenerator: IdGenerator | null = null) {
-    super("questionGroup", idGenerator);
+  protected constructor(title: string, description: string, id: string | null = null) {
+    super("questionGroup", id);
     this.title = title;
     this.description = description;
   }

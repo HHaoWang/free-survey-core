@@ -1,5 +1,4 @@
 import { AbstractQuestion, QuestionInfo, QuestionType } from "../AbstractQuestion";
-import { IdGenerator } from "../AbstractElement";
 
 export interface TimePickerQuestionInfo {
   /**
@@ -43,9 +42,9 @@ export abstract class AbstractTimePickerQuestion extends AbstractQuestion implem
   protected constructor(
     questionType: QuestionType,
     option: QuestionInfo & TimePickerQuestionInfo,
-    idGenerator: IdGenerator | null = null,
+    id: string | null = null,
   ) {
-    super(questionType, option, idGenerator);
+    super(questionType, option, id);
     this.allowTime = option.allowTime;
     this.allowDate = option.allowDate;
     this.format = option.format;

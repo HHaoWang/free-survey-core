@@ -13,8 +13,8 @@ const page1 = new Page();
 const page2 = new Page();
 const questionGroup1 = new QuestionGroup();
 const qg2 = new QuestionGroup();
-const singleText1 = new SingleTextQuestion({ title: "st1" });
-const st2 = new SingleTextQuestion({ title: "st2" });
+const singleText1 = new SingleTextQuestion(null, { title: "st1" });
+const st2 = new SingleTextQuestion(null, { title: "st2" });
 qg2.questions.push(singleText1);
 page1.elements.push(questionGroup1);
 page1.elements.push(qg2);
@@ -98,4 +98,16 @@ test("问卷元素删除测试", () => {
   result = survey.deleteElement(page2);
   expect(result).toBe(true);
   expect(survey.pages.length).toBe(1);
+});
+
+test("导出测试", () => {
+  let json = survey.exportToJson();
+  expect(json).toBe(JSON.stringify(survey));
+});
+
+test("导入测试", () => {
+  let json = survey.exportToJson();
+  const newSurvey = new Survey();
+  newSurvey.importFromJson(json);
+  expect(survey.exportToJson()).toBe(newSurvey.exportToJson());
 });

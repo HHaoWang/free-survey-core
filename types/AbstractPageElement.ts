@@ -1,9 +1,11 @@
-import { AbstractElement, IdGenerator, PageElementType } from "./AbstractElement";
+import { AbstractElement, PageElementType } from "./AbstractElement";
 
 export abstract class AbstractPageElement extends AbstractElement {
-  declare type: PageElementType;
+  public get type(): PageElementType {
+    return super.type as PageElementType;
+  }
 
-  protected constructor(type: PageElementType, idGenerator: IdGenerator | null = null) {
-    super(type, idGenerator);
+  protected constructor(type: PageElementType, id: string | null = null) {
+    super(type, id);
   }
 }

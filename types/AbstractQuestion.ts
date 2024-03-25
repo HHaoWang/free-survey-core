@@ -1,28 +1,33 @@
 import { AbstractPageElement } from "./AbstractPageElement";
-import { IdGenerator } from "./AbstractElement";
+import { FromMap } from "./Common";
 
-export interface QuestionInfo {
-  title: string;
-  showTitle: boolean;
-  placeholder: string;
-  defaultValue: any;
-  description: string;
-  isShown: boolean;
-  isRequired: boolean;
-  isDecoration: boolean;
-}
+export const QuestionInfoDefinition = {
+  title: "string",
+  showTitle: "boolean",
+  placeholder: "string",
+  defaultValue: "any",
+  description: "string",
+  isShown: "boolean",
+  isRequired: "boolean",
+  isDecoration: "boolean",
+} as const;
 
-export type DecoratedQuestionType = "splitter";
+export type QuestionInfo = FromMap<typeof QuestionInfoDefinition>;
 
-export type QuestionType =
-  | "singleText"
-  | "dropdown"
-  | "radioGroup"
-  | "checkbox"
-  | "file"
-  | "timePicker"
-  | "timeSpanPicker"
-  | DecoratedQuestionType;
+export const DecoratedQuestionTypes = ["splitter"] as const;
+export type DecoratedQuestionType = (typeof DecoratedQuestionTypes)[number];
+
+export const QuestionTypes = [
+  "singleText",
+  "dropdown",
+  "radioGroup",
+  "checkbox",
+  "file",
+  "timePicker",
+  "timeSpanPicker",
+  ...DecoratedQuestionTypes,
+];
+export type QuestionType = (typeof QuestionTypes)[number];
 
 export abstract class AbstractQuestion extends AbstractPageElement implements QuestionInfo {
   /**
@@ -41,8 +46,8 @@ export abstract class AbstractQuestion extends AbstractPageElement implements Qu
 
   answer: any;
 
-  protected constructor(questionType: QuestionType, options: QuestionInfo, idGenerator: IdGenerator | null = null) {
-    super("question", idGenerator);
+  protected constructor(questionType: QuestionType, options: QuestionInfo, id: string | null = null) {
+    super("question", id);
 
     this.questionType = questionType;
 

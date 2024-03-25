@@ -11,7 +11,7 @@ export class CheckBoxQuestion extends AbstractQuestion {
    */
   declare answer: Array<string>;
 
-  constructor(options: Partial<QuestionInfo> = {}) {
+  constructor(id: string | null = null, options: Partial<QuestionInfo> = {}) {
     const option = {
       isDecoration: false,
       title: "问题",
@@ -23,6 +23,6 @@ export class CheckBoxQuestion extends AbstractQuestion {
       isRequired: false,
       ...options,
     };
-    super("checkbox", option);
+    super("checkbox", option, id);
   }
 }

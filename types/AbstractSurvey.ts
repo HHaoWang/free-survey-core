@@ -1,5 +1,5 @@
 import { AbstractPage } from "./AbstractPage";
-import { ElementType, IdGenerator, AbstractElement } from "./AbstractElement";
+import { AbstractElement } from "./AbstractElement";
 import { AbstractQuestion } from "./AbstractQuestion";
 import { AbstractQuestionGroup } from "./AbstractQuestionGroup";
 
@@ -7,12 +7,8 @@ export abstract class AbstractSurvey extends AbstractElement {
   title: string = "";
   description: string = "";
   pages: Array<AbstractPage> = new Array<AbstractPage>();
-  currentPageNum: Number | null = null;
-  currentPage: AbstractPage | null = null;
 
-  abstract moveToNextPage: () => void;
-  abstract moveToPrePage: () => void;
-  abstract isValidForm: () => true | string;
+  abstract isValid: () => true | string;
 
   abstract getAllElements: () => Array<AbstractElement>;
   abstract getElement: (id: string) => AbstractElement | null;
@@ -26,7 +22,17 @@ export abstract class AbstractSurvey extends AbstractElement {
   abstract getAnswer: () => { [key: string]: any };
   abstract getAnswerFlattened: () => { [key: string]: any };
 
-  protected constructor(type: ElementType, idGenerator: IdGenerator | null = null) {
-    super(type, idGenerator);
+  /**
+   * 从json格式保存的问卷中导入并覆盖当前问卷实例
+   */
+  abstract importFromJson(jsonContent: string): void;
+
+  /**
+   * 导出当前问卷为json格式字符串
+   */
+  abstract exportToJson(): string;
+
+  protected constructor(id: string | null = null) {
+    super("survey", id);
   }
 }

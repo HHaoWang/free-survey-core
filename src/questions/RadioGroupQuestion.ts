@@ -15,6 +15,7 @@ export class RadioGroupQuestion extends AbstractQuestion {
   allowOther: boolean;
 
   constructor(
+    id: string | null = null,
     options: Partial<
       QuestionInfo & {
         allowOther: boolean;
@@ -33,7 +34,7 @@ export class RadioGroupQuestion extends AbstractQuestion {
       allowOther: false,
       ...options,
     };
-    super("radioGroup", option);
+    super("radioGroup", option, id);
     this.allowOther = option.allowOther;
   }
 }

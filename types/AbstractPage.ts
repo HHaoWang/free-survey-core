@@ -1,4 +1,4 @@
-import { AbstractElement, IdGenerator } from "./AbstractElement";
+import { AbstractElement } from "./AbstractElement";
 import { AbstractPageElement } from "./AbstractPageElement";
 
 export abstract class AbstractPage extends AbstractElement {
@@ -6,7 +6,7 @@ export abstract class AbstractPage extends AbstractElement {
   abstract getAnswer: () => { [key: string]: any };
   abstract getAnswerFlattened: () => { [key: string]: any };
 
-  protected constructor(idGenerator: IdGenerator | null = null) {
-    super("page", idGenerator);
+  protected constructor(id: string | null = null) {
+    super("page", id);
   }
 }

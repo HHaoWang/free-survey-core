@@ -17,6 +17,7 @@ export class DropdownQuestion extends AbstractQuestion {
   allowMultipleAnswers: boolean;
 
   constructor(
+    id: string | null = null,
     options: Partial<
       QuestionInfo & {
         allowMultipleAnswers: boolean;
@@ -35,7 +36,7 @@ export class DropdownQuestion extends AbstractQuestion {
       allowMultipleAnswers: false,
       ...options,
     };
-    super("dropdown", option);
+    super("dropdown", option, id);
     this.allowMultipleAnswers = option.allowMultipleAnswers;
   }
 }

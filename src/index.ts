@@ -4,7 +4,7 @@ export { Page } from "./Page";
 
 export { AbstractQuestion } from "../types/AbstractQuestion";
 export type { QuestionType, QuestionInfo, DecoratedQuestionType } from "../types/AbstractQuestion";
-export type { ElementType, PageElementType, IdGenerator } from "../types/AbstractElement";
+export type { ElementType, PageElementType } from "../types/AbstractElement";
 export { AbstractElement } from "../types/AbstractElement";
 export { AbstractPageElement } from "../types/AbstractPageElement";
 export { AbstractPage } from "../types/AbstractPage";

@@ -7,7 +7,7 @@ export class TimeSpanPickerQuestion extends AbstractTimePickerQuestion {
    */
   declare answer: [string, string];
 
-  constructor(options: Partial<QuestionInfo & TimePickerQuestionInfo> = {}) {
+  constructor(id: string | null = null, options: Partial<QuestionInfo & TimePickerQuestionInfo> = {}) {
     const option = {
       isDecoration: false,
       title: "问题",
@@ -25,6 +25,6 @@ export class TimeSpanPickerQuestion extends AbstractTimePickerQuestion {
       notAfter: null,
       ...options,
     };
-    super("timeSpanPicker", option);
+    super("timeSpanPicker", option, id);
   }
 }
