@@ -101,12 +101,12 @@ test("问卷元素删除测试", () => {
 });
 
 test("导出测试", () => {
-  let json = survey.exportToJson();
+  const json = survey.exportToJson();
   expect(json).toBe(JSON.stringify(survey));
 });
 
 test("导入测试", () => {
-  let json = survey.exportToJson();
+  const json = survey.exportToJson();
   const newSurvey = new Survey();
   newSurvey.importFromJson(json);
   expect(survey.exportToJson()).toBe(newSurvey.exportToJson());

@@ -19,6 +19,7 @@ export class RadioGroupQuestion extends AbstractQuestion {
     options: Partial<
       QuestionInfo & {
         allowOther: boolean;
+        choices: Array<KeyValuePair>;
       }
     > = {},
   ) {
@@ -32,9 +33,19 @@ export class RadioGroupQuestion extends AbstractQuestion {
       isShown: true,
       isRequired: false,
       allowOther: false,
+      answer: "",
       ...options,
     };
     super("radioGroup", option, id);
     this.allowOther = option.allowOther;
+    this.choices = option.choices || [];
+  }
+
+  static parse(obj: any): RadioGroupQuestion {
+    if (typeof obj["id"] !== "string") {
+      throw Error("解析失败，此Json字符串没有包含问卷所需内容！");
+    }
+    const question = new RadioGroupQuestion(obj["id"], obj);
+    return question;
   }
 }

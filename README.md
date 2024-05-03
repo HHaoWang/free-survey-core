@@ -4,7 +4,7 @@ Free Survey Core是一个免费、开源的调查问卷库，它提供一个实�
 
 ![npm](https://img.shields.io/npm/dt/free-survey-core?label=NPM&link=https%3A%2F%2Fwww.npmjs.com%2Fpackage%2Ffree-survey-core)
 ![NPM](https://img.shields.io/npm/l/free-survey-core)
-![GitHub top language](https://img.shields.io/github/languages/top/HHaoWang/free-survey-core)
+![GitHub top language](https://img.shields.io/github/languages/top/HHaoWang/free-survey-core) ![npm](https://img.shields.io/npm/v/free-survey-core?label=Version)
 
 ## 安装
 
@@ -26,7 +26,7 @@ const page = new Page();
 survey.pages.push(page);
 const pages: Array<AbstractPage> = survey.pages;
 const questionGroup = new QuestionGroup();
-const singleTextQuestion = new SingleTextQuestion({ title: "a single text question" });
+const singleTextQuestion = new SingleTextQuestion((options = { title: "a single text question" }));
 questionGroup.questions.push(singleTextQuestion);
 page.elements.push(questionGroup);
 
@@ -56,20 +56,24 @@ free-survey-core 主要的责任在于对调查问卷的抽象和数据的存储
 
 ## 扩展
 
-若需要对题型进行扩展，继承 `AbstractQuestion` 即可。
+若需要对题型进行扩展，继承 `AbstractQuestion` 并实现即可。此外，若要支持导入导出功能，需要实例化 `QuestionParserFactory`，调用 `registerParser` 方法，提供解析器即可。解析问卷时，会逐一遍历所有元素，根据元素类型和问题类型调用对应的解析器进行解析，此时会把识别到的对应元素传入解析器，解析器需要根据元素对象实例化元素并返回，随后，实例化的元素会被插入到对应的位置。解析器定义如下：
+
+```typescript
+export type Parser = (obj: any) => AbstractQuestion;
+```
 
 ## 支持的问题类型
 
-|         问题类型          | 是否支持 | 是否规划 |
-|:---------------------:|:----:|:----:|
-|   单项选择(RadioGroup)    |  ✅   |      |
-|    多项选择(CheckBox)     |  ✅   |      |
-|   文本问答(SingleText)    |  ✅   |      |
-|    下拉选择(Dropdown)     |  ✅   |      |
-|   时间选择(TimePicker)    |  ✅   |      |
-| 时间段选择(TimeSpanPicker) |  ✅   |      |
-|     分割线(Splitter)     |  ✅   |      |
-|       文件(File)        |  ❌   |  ✅   |
+|          问题类型          | 是否支持 | 是否规划 |
+| :------------------------: | :------: | :------: |
+|    单项选择(RadioGroup)    |    ✅    |          |
+|     多项选择(CheckBox)     |    ✅    |          |
+|    文本问答(SingleText)    |    ✅    |          |
+|     下拉选择(Dropdown)     |    ✅    |          |
+|    时间选择(TimePicker)    |    ✅    |          |
+| 时间段选择(TimeSpanPicker) |    ✅    |          |
+|      分割线(Splitter)      |    ✅    |          |
+|         文件(File)         |    ❌    |    ✅    |
 
 ## 反馈建议
 

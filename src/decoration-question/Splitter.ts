@@ -13,9 +13,17 @@ export class Splitter extends AbstractQuestion {
         description: "",
         isShown: true,
         isRequired: false,
+        answer:"",
         ...options,
       },
       id,
     );
+  }
+
+  static parse(obj: any): AbstractQuestion{
+    if (typeof obj["id"] !== "string") {
+      throw Error("解析失败，此Json字符串没有包含问卷所需内容！");
+    }
+    return new Splitter(obj["id"]);
   }
 }

@@ -10,6 +10,7 @@ export const QuestionInfoDefinition = {
   isShown: "boolean",
   isRequired: "boolean",
   isDecoration: "boolean",
+  answer: "any",
 } as const;
 
 export type QuestionInfo = FromMap<typeof QuestionInfoDefinition>;
@@ -26,7 +27,7 @@ export const QuestionTypes = [
   "timePicker",
   "timeSpanPicker",
   ...DecoratedQuestionTypes,
-];
+] as const;
 export type QuestionType = (typeof QuestionTypes)[number];
 
 export abstract class AbstractQuestion extends AbstractPageElement implements QuestionInfo {

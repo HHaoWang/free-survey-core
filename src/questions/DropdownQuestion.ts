@@ -34,9 +34,17 @@ export class DropdownQuestion extends AbstractQuestion {
       isShown: true,
       isRequired: false,
       allowMultipleAnswers: false,
+      answer: "",
       ...options,
     };
     super("dropdown", option, id);
     this.allowMultipleAnswers = option.allowMultipleAnswers;
+  }
+
+  static parse(obj: any): AbstractQuestion{
+    if (typeof obj["id"] !== "string") {
+      throw Error("解析失败，此Json字符串没有包含问卷所需内容！");
+    }
+    return new DropdownQuestion(obj["id"], obj);
   }
 }

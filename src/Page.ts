@@ -1,4 +1,4 @@
-import { AbstractPage, AbstractQuestion, AbstractQuestionGroup } from "../types";
+import { AbstractPage, AbstractQuestion, AbstractQuestionGroup, QuestionType } from "../types";
 import { AbstractElement } from "../types/AbstractElement";
 import { QuestionGroup } from "./QuestionGroup";
 import { QuestionParserFactory } from "./QuestionParserFactory";
@@ -68,7 +68,7 @@ export class Page extends AbstractPage {
         if (typeof pageElement["questionType"] !== "string") {
           continue;
         }
-        const parser = factory.getParser(pageElement["questionType"]);
+        const parser = factory.getParser(pageElement["questionType"] as QuestionType);
         page.elements.push(parser(pageElement));
       }
     }

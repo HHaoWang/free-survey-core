@@ -1,4 +1,4 @@
-import { AbstractQuestionGroup } from "../types";
+import { AbstractQuestionGroup, QuestionType } from "../types";
 import { AbstractElement } from "../types/AbstractElement";
 import { QuestionParserFactory } from "./QuestionParserFactory";
 
@@ -47,7 +47,7 @@ export class QuestionGroup extends AbstractQuestionGroup {
       if (typeof question["questionType"] !== "string") {
         continue;
       }
-      const parser = factory.getParser(question["questionType"]);
+      const parser = factory.getParser(question["questionType"] as QuestionType);
       questionGroup.questions.push(parser(question));
     }
 

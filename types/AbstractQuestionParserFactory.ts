@@ -4,4 +4,5 @@ export type Parser = (obj: any) => AbstractQuestion;
 
 export abstract class AbstractQuestionParserFactory {
   abstract getParser(questionType: QuestionType): Parser;
+  abstract registerParser(questionType: QuestionType, parser: Parser): void;
 }
