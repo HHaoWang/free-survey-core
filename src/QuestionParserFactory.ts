@@ -22,7 +22,7 @@ export class QuestionParserFactory extends AbstractQuestionParserFactory {
     QuestionParserFactory.questionTypeParserMap.set(questionType, parser);
   }
 
-  static QuestionParserFactory(){
+  static {
     QuestionParserFactory.questionTypeParserMap.set("singleText", SingleTextQuestion.parse);
     QuestionParserFactory.questionTypeParserMap.set("radioGroup", RadioGroupQuestion.parse);
     QuestionParserFactory.questionTypeParserMap.set("checkbox", CheckBoxQuestion.parse);
