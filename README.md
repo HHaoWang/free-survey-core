@@ -75,6 +75,12 @@ export type Parser = (obj: any) => AbstractQuestion;
 |      分割线(Splitter)      |    ✅    |          |
 |         文件(File)         |    ❌    |    ✅    |
 
+## 注意
+
+1. 默认的ID生成器（ULID）是一个简单的自增ID生成器，在创建问题时只需要将ID设置为null就会采用默认ID生成器。如果你需要更复杂的ID生成器，可以自行实现生成算法，并在添加问题时将生成的ID传入构造函数中，但生成的ID必须在同一问卷中保证唯一性。
+2. 为了在Node环境中使用ULID，我们启用了不安全的 `Math.random` 模块，这是因为我们因为我们不需要生成的ID作为加密算法的一部分，而只是需要一个唯一标识符。如果你需要更安全的ID生成器，可以自行实现ID生成器并在创建问题时生成ID传入构造函数中。
+3. 此库仅提供了基础的问卷设计功能，不包含任何UI组件，你可以根据自己的需求实现UI组件。我们提供了一个基于Vue3的问卷设计生成组件 [free-survey-form-builder](https://github.com/HHaoWang/free-survey-form-builder) 和一个同样基于Vue3的问卷填写组件 [free-survey-form](https://github.com/HHaoWang/free-survey-form) 。
+
 ## 反馈建议
 
 请在 free-survey-core 的 [Github仓库](https://github.com/HHaoWang/free-survey-core) 提起issue以便进行反馈和建议。如有使用问题也可提出issue。

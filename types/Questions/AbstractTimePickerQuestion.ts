@@ -12,22 +12,18 @@ export interface TimePickerQuestionInfo {
   allowTime: boolean;
 
   /**
-   * 时间记录格式，参考Dayjs
+   * 时间显示格式，参考Dayjs，此格式仅用于数据展示时使用
+   * 保存答案时统一采用ISO8601格式
    */
   format: string;
 
   /**
-   * 日期时区，解析或者输入时都会指定
-   */
-  timezone: string;
-
-  /**
-   * 可选最早时间，为null表示不限制
+   * 可选最早时间，ISO8601格式，为null表示不限制
    */
   notBefore: string | null;
 
   /**
-   * 可选最晚时间，为null表示不限制
+   * 可选最晚时间，ISO8601格式，为null表示不限制
    */
   notAfter: string | null;
 }
@@ -38,7 +34,6 @@ export abstract class AbstractTimePickerQuestion extends AbstractQuestion implem
   format: string;
   notAfter: string | null;
   notBefore: string | null;
-  timezone: string;
   protected constructor(
     questionType: QuestionType,
     option: QuestionInfo & TimePickerQuestionInfo,
@@ -48,7 +43,6 @@ export abstract class AbstractTimePickerQuestion extends AbstractQuestion implem
     this.allowTime = option.allowTime;
     this.allowDate = option.allowDate;
     this.format = option.format;
-    this.timezone = option.timezone;
     this.notAfter = option.notAfter;
     this.notBefore = option.notBefore;
   }

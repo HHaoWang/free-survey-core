@@ -1,8 +1,7 @@
 import { AbstractQuestion, QuestionInfo } from "../../types";
 import { AbstractTimePickerQuestion, TimePickerQuestionInfo } from "../../types/Questions/AbstractTimePickerQuestion";
 import { ValidationError } from "../../types/Common";
-import dayjs from "dayjs";
-import CustomParseFormat from "dayjs/plugin/customParseFormat";
+import { LocalTime, LocalDate, ZonedDateTime } from "@js-joda/core";
 
 export class TimePickerQuestion extends AbstractTimePickerQuestion {
   /**
@@ -23,7 +22,6 @@ export class TimePickerQuestion extends AbstractTimePickerQuestion {
       allowDate: true,
       allowTime: true,
       format: "YYYY-MM-DD HH:mm:ss",
-      timezone: "",
       notBefore: null,
       notAfter: null,
       answer: "",
@@ -50,18 +48,29 @@ export class TimePickerQuestion extends AbstractTimePickerQuestion {
     }
 
     try {
-      dayjs.extend(CustomParseFormat);
-      if (this.format) {
+      let Parser;
+      if (this.allowDate && this.allowTime) {
+        Parser = ZonedDateTime;
+      } else if (this.allowDate && !this.allowTime) {
+        Parser = LocalDate;
+      } else if (!this.allowDate && this.allowTime) {
+        Parser = LocalTime;
+      } else if (!this.allowDate && !this.allowTime) {
+        throw "时间选择器不允许选择日期和时间！";
       }
-      const time = dayjs(this.answer, this.format, true);
-      if (this.notAfter && time.isAfter(dayjs(this.notAfter))) {
+      const answerTime = Parser!.parse(this.answer);
+      const notBefore = this.notBefore ? Parser!.parse(this.notBefore) : null;
+      const notAfter = this.notAfter ? Parser!.parse(this.notAfter) : null;
+      // @ts-ignore
+      if (this.notAfter && answerTime.isAfter(notAfter)) {
         errors.push({
           elementId: this.id,
           msg: `选择的时间在${this.notAfter}之后！`,
           validatedData: this.answer,
         });
       }
-      if (this.notBefore && time.isBefore(dayjs(this.notBefore))) {
+      // @ts-ignore
+      if (this.notBefore && answerTime.isBefore(notBefore)) {
         errors.push({
           elementId: this.id,
           msg: `选择的时间在${this.notBefore}之前！`,
