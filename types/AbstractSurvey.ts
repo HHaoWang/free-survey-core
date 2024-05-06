@@ -8,8 +8,6 @@ export abstract class AbstractSurvey extends AbstractElement {
   description: string = "";
   pages: Array<AbstractPage> = new Array<AbstractPage>();
 
-  abstract isValid: () => true | string;
-
   abstract getAllElements: () => Array<AbstractElement>;
   abstract getElement: (id: string) => AbstractElement | null;
   abstract getElementWithExtraInfos: (

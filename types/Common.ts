@@ -33,3 +33,9 @@ export type Type<TypeName> = TypeName extends "string"
   : TypeName extends "undefined"
   ? undefined
   : any;
+
+export type ValidationError = {
+  msg: string;
+  elementId: string;
+  validatedData: any;
+};

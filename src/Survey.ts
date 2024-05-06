@@ -2,6 +2,7 @@ import { AbstractPage, AbstractQuestion, AbstractQuestionGroup, AbstractSurvey }
 import { AbstractElement } from "../types/AbstractElement";
 import * as console from "console";
 import { Page } from "./Page";
+import { ValidationError } from "../types/Common";
 
 export class Survey extends AbstractSurvey {
   isValidForm = () => {
@@ -170,9 +171,24 @@ export class Survey extends AbstractSurvey {
     return answer;
   };
 
-  isValid = (): true | string => {
-    return true;
-  };
+  answerIsValid() {
+    const results = [];
+    for (const page of this.pages) {
+      results.push(page.answerIsValid());
+    }
+    return Promise.allSettled(results).then((res) => {
+      const errors = [];
+      for (const result of res) {
+        if (result.status === "fulfilled" && result.value !== true) {
+          errors.push(...(result.value as ValidationError[]));
+        }
+      }
+      if (errors.length > 0) {
+        return errors;
+      }
+      return true as const;
+    });
+  }
 
   exportToJson(): string {
     return JSON.stringify(this);

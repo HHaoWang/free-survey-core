@@ -1,4 +1,5 @@
 import { ulid } from "ulid";
+import { ValidationError } from "./Common";
 
 export abstract class AbstractElement {
   private _type: ElementType;
@@ -51,6 +52,8 @@ export abstract class AbstractElement {
 
     return obj;
   }
+
+  abstract answerIsValid(): Promise<true | Array<ValidationError>>;
 }
 export const PageElementTypes = ["questionGroup", "question"] as const;
 export type PageElementType = (typeof PageElementTypes)[number];

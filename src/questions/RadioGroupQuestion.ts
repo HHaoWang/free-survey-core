@@ -1,4 +1,5 @@
 import { AbstractQuestion, KeyValuePair, QuestionInfo } from "../../types";
+import { ValidationError } from "../../types/Common";
 
 export class RadioGroupQuestion extends AbstractQuestion {
   /**
@@ -8,7 +9,7 @@ export class RadioGroupQuestion extends AbstractQuestion {
   /**
    * 记录选项的键而非值，若allowOther为true则记录“其它”中填写的内容
    */
-  declare answer: string;
+  declare answer: string | undefined;
   /**
    * 是否允许“其它”选项
    */
@@ -45,7 +46,25 @@ export class RadioGroupQuestion extends AbstractQuestion {
     if (typeof obj["id"] !== "string") {
       throw Error("解析失败，此Json字符串没有包含问卷所需内容！");
     }
-    const question = new RadioGroupQuestion(obj["id"], obj);
-    return question;
+    return new RadioGroupQuestion(obj["id"], obj);
+  }
+
+  answerIsValid(): Promise<true | Array<ValidationError>> {
+    const errors: ValidationError[] = [];
+    if (this.isRequired && !this.answer) {
+      errors.push({
+        elementId: this.id,
+        msg: "此问题必填！",
+        validatedData: this.answer,
+      });
+    }
+    if (this.answer && !this.choices.map((item) => item.key).includes(this.answer)) {
+      errors.push({
+        elementId: this.id,
+        msg: `已选选项${this.answer}不在可选选项内！`,
+        validatedData: this.answer,
+      });
+    }
+    return errors.length > 0 ? Promise.resolve(errors) : Promise.resolve(true);
   }
 }

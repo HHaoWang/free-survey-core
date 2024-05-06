@@ -2,6 +2,7 @@ import { AbstractPage, AbstractQuestion, AbstractQuestionGroup, QuestionType } f
 import { AbstractElement } from "../types/AbstractElement";
 import { QuestionGroup } from "./QuestionGroup";
 import { QuestionParserFactory } from "./QuestionParserFactory";
+import { ValidationError } from "../types/Common";
 
 export class Page extends AbstractPage {
   constructor(id: string | null = null) {
@@ -73,5 +74,25 @@ export class Page extends AbstractPage {
       }
     }
     return page;
+  }
+
+  answerIsValid() {
+    const results = [];
+    for (const element of this.elements) {
+      results.push(element.answerIsValid());
+    }
+    // noinspection DuplicatedCode
+    return Promise.allSettled(results).then((res) => {
+      const errors = [];
+      for (const result of res) {
+        if (result.status === "fulfilled" && result.value !== true) {
+          errors.push(...(result.value as ValidationError[]));
+        }
+      }
+      if (errors.length > 0) {
+        return errors;
+      }
+      return true as const;
+    });
   }
 }

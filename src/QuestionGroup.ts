@@ -1,6 +1,7 @@
 import { AbstractQuestionGroup, QuestionType } from "../types";
 import { AbstractElement } from "../types/AbstractElement";
 import { QuestionParserFactory } from "./QuestionParserFactory";
+import { ValidationError } from "../types/Common";
 
 export class QuestionGroup extends AbstractQuestionGroup {
   constructor(id: string | null = null) {
@@ -52,5 +53,25 @@ export class QuestionGroup extends AbstractQuestionGroup {
     }
 
     return questionGroup;
+  }
+
+  answerIsValid() {
+    const results = [];
+    for (const question of this.questions) {
+      results.push(question.answerIsValid());
+    }
+    // noinspection DuplicatedCode
+    return Promise.allSettled(results).then((res) => {
+      const errors = [];
+      for (const result of res) {
+        if (result.status === "fulfilled" && result.value !== true) {
+          errors.push(...(result.value as ValidationError[]));
+        }
+      }
+      if (errors.length > 0) {
+        return errors;
+      }
+      return true as const;
+    });
   }
 }

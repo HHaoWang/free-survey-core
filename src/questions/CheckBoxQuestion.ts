@@ -1,5 +1,9 @@
 import { AbstractQuestion, KeyValuePair, QuestionInfo } from "../../types";
+import { ValidationError } from "../../types/Common";
 
+/**
+ * 多选问题
+ */
 export class CheckBoxQuestion extends AbstractQuestion {
   /**
    * 可选选项
@@ -40,5 +44,27 @@ export class CheckBoxQuestion extends AbstractQuestion {
       throw Error("解析失败，此Json字符串没有包含问卷所需内容！");
     }
     return new CheckBoxQuestion(obj["id"], obj);
+  }
+
+  answerIsValid(): Promise<true | Array<ValidationError>> {
+    const errors: ValidationError[] = [];
+    if (this.isRequired && this.answer.length <= 0) {
+      errors.push({
+        elementId: this.id,
+        msg: "此问题必填！",
+        validatedData: this.answer,
+      });
+    }
+    const choicesKeys = this.choices.map((item) => item.key);
+    for (const selectedItem of this.answer) {
+      if (!choicesKeys.includes(selectedItem)) {
+        errors.push({
+          elementId: this.id,
+          msg: `已选选项${selectedItem}不在可选选项内！`,
+          validatedData: this.answer,
+        });
+      }
+    }
+    return errors.length > 0 ? Promise.resolve(errors) : Promise.resolve(true);
   }
 }

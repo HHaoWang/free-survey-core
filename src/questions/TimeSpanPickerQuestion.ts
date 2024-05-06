@@ -1,5 +1,8 @@
 import { AbstractQuestion, QuestionInfo } from "../../types";
 import { AbstractTimePickerQuestion, TimePickerQuestionInfo } from "../../types/Questions/AbstractTimePickerQuestion";
+import { ValidationError } from "../../types/Common";
+import dayjs from "dayjs";
+import CustomParseFormat from "dayjs/plugin/customParseFormat";
 
 export class TimeSpanPickerQuestion extends AbstractTimePickerQuestion {
   /**
@@ -29,10 +32,52 @@ export class TimeSpanPickerQuestion extends AbstractTimePickerQuestion {
     super("timeSpanPicker", option, id);
   }
 
-  static parse(obj: any): AbstractQuestion{
+  static parse(obj: any): AbstractQuestion {
     if (typeof obj["id"] !== "string") {
       throw Error("解析失败，此Json字符串没有包含问卷所需内容！");
     }
     return new TimeSpanPickerQuestion(obj["id"], obj);
+  }
+
+  answerIsValid(): Promise<true | Array<ValidationError>> {
+    const errors: ValidationError[] = [];
+    if (this.isRequired && (!this.answer || this.answer.length <= 0)) {
+      errors.push({
+        elementId: this.id,
+        msg: "此问题必填！",
+        validatedData: this.answer,
+      });
+    }
+
+    for (const selectedTime of this.answer) {
+      try {
+        dayjs.extend(CustomParseFormat);
+        if (this.format) {
+        }
+        const time = dayjs(selectedTime, this.format, true);
+        if (this.notAfter && time.isAfter(dayjs(this.notAfter))) {
+          errors.push({
+            elementId: this.id,
+            msg: `选择的时间在${this.notAfter}之后！`,
+            validatedData: selectedTime,
+          });
+        }
+        if (this.notBefore && time.isBefore(dayjs(this.notBefore))) {
+          errors.push({
+            elementId: this.id,
+            msg: `选择的时间在${this.notBefore}之前！`,
+            validatedData: selectedTime,
+          });
+        }
+      } catch (error) {
+        errors.push({
+          elementId: this.id,
+          msg: "解析时间失败，此回答不是有效的时间！",
+          validatedData: this.answer,
+        });
+      }
+    }
+
+    return errors.length > 0 ? Promise.resolve(errors) : Promise.resolve(true);
   }
 }
