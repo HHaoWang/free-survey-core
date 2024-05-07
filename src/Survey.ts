@@ -148,6 +148,9 @@ export class Survey extends AbstractSurvey {
     return true;
   };
 
+  /**
+   * 获取结构化的问卷答案，此方法不检查答案的合法性
+   */
   getAnswer = () => {
     const answer: { [key: string]: any } = {};
     for (const page of this.pages) {
@@ -156,6 +159,9 @@ export class Survey extends AbstractSurvey {
     return answer;
   };
 
+  /**
+   * 获取所有问题答案数组，此方法不检查答案的合法性
+   */
   getAnswerFlattened = () => {
     let answer: { [key: string]: any } = {};
     for (const page of this.pages) {
