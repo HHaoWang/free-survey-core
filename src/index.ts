@@ -1,6 +1,7 @@
 export { Survey } from "./Survey";
 export { QuestionGroup } from "./QuestionGroup";
 export { Page } from "./Page";
+export { ValidationError, KeyValuePair } from "../types/Common";
 
 export { AbstractQuestion } from "../types/AbstractQuestion";
 export type { QuestionType, QuestionInfo, DecoratedQuestionType } from "../types/AbstractQuestion";
