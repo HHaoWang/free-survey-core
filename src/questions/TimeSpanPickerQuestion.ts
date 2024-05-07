@@ -1,8 +1,7 @@
 import { AbstractQuestion, QuestionInfo } from "../../types";
 import { AbstractTimePickerQuestion, TimePickerQuestionInfo } from "../../types/Questions/AbstractTimePickerQuestion";
 import { ValidationError } from "../../types/Common";
-import dayjs from "dayjs";
-import CustomParseFormat from "dayjs/plugin/customParseFormat";
+import { LocalDate, LocalTime, ZonedDateTime } from "@js-joda/core";
 
 export class TimeSpanPickerQuestion extends AbstractTimePickerQuestion {
   /**
@@ -23,7 +22,6 @@ export class TimeSpanPickerQuestion extends AbstractTimePickerQuestion {
       allowDate: true,
       allowTime: true,
       format: "YYYY-MM-DD HH:mm:ss",
-      timezone: "Asia/Shanghai",
       notBefore: null,
       notAfter: null,
       answer: ["", ""],
@@ -54,27 +52,42 @@ export class TimeSpanPickerQuestion extends AbstractTimePickerQuestion {
         validatedData: this.answer,
       });
     }
-    dayjs.extend(CustomParseFormat);
+
     try {
-      const times = [dayjs(this.answer[0], this.format, true), dayjs(this.answer[1], this.format, true)];
-      if (times[0].isAfter(times[1])) {
+      let Parser;
+      if (this.allowDate && this.allowTime) {
+        Parser = ZonedDateTime;
+      } else if (this.allowDate && !this.allowTime) {
+        Parser = LocalDate;
+      } else if (!this.allowDate && this.allowTime) {
+        Parser = LocalTime;
+      } else if (!this.allowDate && !this.allowTime) {
+        throw "时间选择器不允许选择日期和时间！";
+      }
+      const answerTimes = [Parser!.parse(this.answer[0]), Parser!.parse(this.answer[1])];
+      const notBefore = this.notBefore ? Parser!.parse(this.notBefore) : null;
+      const notAfter = this.notAfter ? Parser!.parse(this.notAfter) : null;
+      // @ts-ignore
+      if (answerTimes[0].isAfter(answerTimes[1])) {
         errors.push({
           elementId: this.id,
-          msg: "选取时间段开始时间必须在结束时间之前！",
+          msg: "选择的时间段不合法！",
           validatedData: this.answer,
         });
       }
-      if (this.notBefore && times[0].isBefore(dayjs(this.notBefore))) {
+      // @ts-ignore
+      if (this.notAfter && answerTimes[1].isAfter(notAfter)) {
+        errors.push({
+          elementId: this.id,
+          msg: `选择的时间在${this.notAfter}之后！`,
+          validatedData: this.answer,
+        });
+      }
+      // @ts-ignore
+      if (this.notBefore && answerTimes[0].isBefore(notBefore)) {
         errors.push({
           elementId: this.id,
           msg: `选择的时间在${this.notBefore}之前！`,
-          validatedData: this.answer,
-        });
-      }
-      if (this.notAfter && times[1].isAfter(dayjs(this.notAfter))) {
-        errors.push({
-          elementId: this.id,
-          msg: `选择的时间在${this.notAfter}之之后！`,
           validatedData: this.answer,
         });
       }

@@ -12,7 +12,7 @@ export interface TimePickerQuestionInfo {
   allowTime: boolean;
 
   /**
-   * 时间显示格式，参考Dayjs，此格式仅用于数据展示时使用
+   * 时间显示格式，参考js-joda，此格式仅用于数据展示时使用
    * 保存答案时统一采用ISO8601格式
    */
   format: string;

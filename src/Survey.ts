@@ -5,10 +5,6 @@ import { Page } from "./Page";
 import { ValidationError } from "../types/Common";
 
 export class Survey extends AbstractSurvey {
-  isValidForm = () => {
-    return "";
-  };
-
   constructor(title: string | null = null, description: string | null = null, id: string | null = null) {
     super(id);
     this.title = title ? title : "问卷标题";
