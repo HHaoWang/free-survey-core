@@ -10,6 +10,7 @@ export { AbstractElement } from "../types/AbstractElement";
 export { AbstractPageElement } from "../types/AbstractPageElement";
 export { AbstractPage } from "../types/AbstractPage";
 export { AbstractQuestionGroup } from "../types/AbstractQuestionGroup";
+export { AbstractSurvey } from "../types/AbstractSurvey";
 
 export { DropdownQuestion } from "./questions/DropdownQuestion";
 export { CheckBoxQuestion } from "./questions/CheckBoxQuestion";

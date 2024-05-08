@@ -6,27 +6,12 @@ const prng = detectPrng(true);
 const ulid = factory(prng);
 
 export abstract class AbstractElement {
-  private _type: ElementType;
-  public get type(): ElementType {
-    return this._type;
-  }
-
-  protected set type(value: ElementType) {
-    this._type = value;
-  }
-
-  private _id: string;
-  public get id(): string {
-    return this._id;
-  }
-
-  protected set id(value: string) {
-    this._id = value;
-  }
+  public "type": ElementType;
+  public id: string;
 
   protected constructor(type: ElementType, id: string | null = null) {
-    this._type = type;
-    this._id = id ?? ulid();
+    this.type = type;
+    this.id = id ?? ulid();
   }
 
   public static ExtractFromObject(obj: any): { id: string; type: ElementType } {
