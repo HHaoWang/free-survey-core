@@ -9,7 +9,7 @@ export class Page extends AbstractPage {
     super(id);
   }
 
-  getAnswer = () => {
+  getAnswer() {
     const answer: { [key: string]: any } = {};
     for (const element of this.elements) {
       if (element.type === "question") {
@@ -21,9 +21,9 @@ export class Page extends AbstractPage {
       }
     }
     return answer;
-  };
+  }
 
-  getAnswerFlattened = () => {
+  getAnswerFlattened() {
     let answer: { [key: string]: any } = {};
     for (const element of this.elements) {
       if (element.type === "question") {
@@ -38,7 +38,7 @@ export class Page extends AbstractPage {
       }
     }
     return answer;
-  };
+  }
 
   static Parse(obj: any): AbstractPage {
     const baseInfo = AbstractElement.ExtractFromObject(obj);

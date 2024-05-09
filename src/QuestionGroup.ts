@@ -8,17 +8,17 @@ export class QuestionGroup extends AbstractQuestionGroup {
     super("问题组", "问题组描述", id);
   }
 
-  getAnswer = () => {
+  getAnswer() {
     const answer: { [key: string]: any } = {};
     for (const question of this.questions) {
       answer[question.id] = question.answer;
     }
     return answer;
-  };
+  }
 
-  getAnswerFlattened = () => {
+  getAnswerFlattened() {
     return this.getAnswer();
-  };
+  }
 
   public static Parse(obj: any): AbstractQuestionGroup {
     const baseInfo = AbstractElement.ExtractFromObject(obj);

@@ -4,7 +4,13 @@ import { ValidationError } from "../../types/Common";
 
 export class SingleTextQuestion extends AbstractQuestion {
   declare answer: string;
+  /**
+   * 最小长度，如果不设置则不限制，若isRequired为true则答案长度必须大于0，然后再根据此设置进行校验
+   */
   minLength: number | undefined;
+  /**
+   * 最大长度，如果不设置则不限制
+   */
   maxLength: number | undefined;
 
   constructor(id: string | null = null, options: Partial<QuestionInfo> = {}) {

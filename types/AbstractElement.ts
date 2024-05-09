@@ -14,7 +14,12 @@ export abstract class AbstractElement {
     this.id = id ?? ulid();
   }
 
-  public static ExtractFromObject(obj: any): { id: string; type: ElementType } {
+  /**
+   * 从对象中提取id和type
+   * @param obj 对象
+   * @returns id和type
+   */
+  public static ExtractFromObject(obj: { [key: string]: any }): { id: string; type: ElementType } {
     if (typeof obj !== "object" || !obj) {
       throw Error("解析失败，此Json字符串没有包含问卷所需内容！");
     }
@@ -28,20 +33,10 @@ export abstract class AbstractElement {
     };
   }
 
-  public toJSON(): string {
-    let obj: any = {};
-
-    for (let key in this) {
-      if (key[0] === "_") {
-        obj[key.substring(1)] = this[key];
-      } else {
-        obj[key] = this[key];
-      }
-    }
-
-    return obj;
-  }
-
+  /**
+   * 检查答案是否有效
+   * @returns true表示答案有效，否则返回错误信息数组
+   */
   abstract answerIsValid(): Promise<true | Array<ValidationError>>;
 }
 export const PageElementTypes = ["questionGroup", "question"] as const;

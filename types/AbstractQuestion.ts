@@ -47,6 +47,13 @@ export abstract class AbstractQuestion extends AbstractPageElement implements Qu
 
   answer: any;
 
+  /**
+   * 构造函数
+   * @param questionType 问题类型
+   * @param options 问题信息
+   * @param id 问题ID
+   * @protected
+   */
   protected constructor(questionType: QuestionType, options: QuestionInfo, id: string | null = null) {
     super("question", id);
 

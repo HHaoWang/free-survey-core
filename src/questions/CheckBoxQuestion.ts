@@ -11,6 +11,17 @@ export class CheckBoxQuestion extends AbstractQuestion {
   choices: Array<KeyValuePair> = [];
 
   /**
+   * 最多选择选项数量，undefined表示不限制
+   */
+  maxSelect: number | undefined;
+
+  /**
+   * 最少选择选项数量，undefined表示不限制<br>
+   * isRequired为true时至少选择一项,此时minSelect若为0或不限制无效
+   */
+  minSelect: number | undefined;
+
+  /**
    * 记录选项的键而非值
    */
   declare answer: Array<string>;
@@ -20,6 +31,8 @@ export class CheckBoxQuestion extends AbstractQuestion {
     options: Partial<
       QuestionInfo & {
         choices: Array<KeyValuePair>;
+        maxSelect: number | undefined;
+        minSelect: number | undefined;
       }
     > = {},
   ) {
@@ -37,9 +50,16 @@ export class CheckBoxQuestion extends AbstractQuestion {
     };
     super("checkbox", option, id);
     this.choices = option.choices || [];
+    this.maxSelect = option.maxSelect;
+    this.minSelect = option.minSelect;
   }
 
-  static parse(obj: any): AbstractQuestion {
+  /**
+   * 解析Json对象为CheckBoxQuestion实例
+   * @param obj 解析后的Json对象
+   * @returns CheckBoxQuestion实例
+   */
+  static parse(obj: { [key: string]: any }): AbstractQuestion {
     if (typeof obj["id"] !== "string") {
       throw Error("解析失败，此Json字符串没有包含问卷所需内容！");
     }
@@ -64,6 +84,20 @@ export class CheckBoxQuestion extends AbstractQuestion {
           validatedData: this.answer,
         });
       }
+    }
+    if (this.minSelect && this.answer.length < this.minSelect) {
+      errors.push({
+        elementId: this.id,
+        msg: `至少选择${this.minSelect}项！`,
+        validatedData: this.answer,
+      });
+    }
+    if (this.maxSelect && this.answer.length > this.maxSelect) {
+      errors.push({
+        elementId: this.id,
+        msg: `最多选择${this.maxSelect}项！`,
+        validatedData: this.answer,
+      });
     }
     return errors.length > 0 ? Promise.resolve(errors) : Promise.resolve(true);
   }

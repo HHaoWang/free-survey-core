@@ -11,29 +11,27 @@ export class Survey extends AbstractSurvey {
     this.description = description ? description : "感谢您能抽出几分钟时间来参加本次答题，现在我们就马上开始吧！";
   }
 
-  getAllPages = () => {
+  getAllPages(): Array<AbstractPage> {
     return this.pages;
-  };
+  }
 
-  getAllQuestionGroups = (): Array<AbstractQuestionGroup> => {
+  getAllQuestionGroups(): Array<AbstractQuestionGroup> {
     return <Array<AbstractQuestionGroup>>(
       this.pages.flatMap((page) => page.elements.filter((element) => element.type === "questionGroup"))
     );
-  };
+  }
 
-  getAllQuestions = (): Array<AbstractQuestion> =>
-    <Array<AbstractQuestion>>(
+  getAllQuestions(): Array<AbstractQuestion> {
+    return <Array<AbstractQuestion>>(
       this.pages.flatMap((page) =>
         page.elements.flatMap((element) =>
           element.type === "question" ? element : (element as AbstractQuestionGroup).questions,
         ),
       )
     );
+  }
 
-  /**
-   * 获取问卷中全部组件，采用前序遍历
-   */
-  getAllElements = (): Array<AbstractElement> => {
+  getAllElements(): Array<AbstractElement> {
     const elements: Array<AbstractElement> = [];
     elements.push(this);
     for (const page of this.pages) {
@@ -49,21 +47,16 @@ export class Survey extends AbstractSurvey {
       }
     }
     return elements;
-  };
+  }
 
-  getElement = (id: string): AbstractElement | null =>
-    this.getAllElements().find((element) => element.id === id) ?? null;
+  getElement(id: string): AbstractElement | null {
+    return this.getAllElements().find((element) => element.id === id) ?? null;
+  }
 
-  /**
-   * 获取目标题目及其父项
-   * @param idOrElement 模板题目ID或元素
-   */
-  getElementWithExtraInfos = (
-    idOrElement: string | AbstractElement,
-  ): {
+  getElementWithExtraInfos(idOrElement: string | AbstractElement): {
     target: AbstractElement;
     parent: AbstractElement | null;
-  } | null => {
+  } | null {
     const allElements = this.getAllElements();
     const targetElementIndex = allElements.findIndex(
       (element) => element === idOrElement || element.id === idOrElement,
@@ -114,9 +107,9 @@ export class Survey extends AbstractSurvey {
       }
     }
     throw Error("找不到该元素！所查元素信息:" + idOrElement);
-  };
+  }
 
-  deleteElement = (idOrElement: string | AbstractElement): boolean => {
+  deleteElement(idOrElement: string | AbstractElement): boolean {
     const targetElementInfo = this.getElementWithExtraInfos(idOrElement);
     if (targetElementInfo === null) {
       return true;
@@ -146,23 +139,17 @@ export class Survey extends AbstractSurvey {
     }
     list.splice(index, 1);
     return true;
-  };
+  }
 
-  /**
-   * 获取结构化的问卷答案，此方法不检查答案的合法性
-   */
-  getAnswer = () => {
+  getAnswer() {
     const answer: { [key: string]: any } = {};
     for (const page of this.pages) {
       answer[page.id] = page.getAnswer();
     }
     return answer;
-  };
+  }
 
-  /**
-   * 获取所有问题答案数组，此方法不检查答案的合法性
-   */
-  getAnswerFlattened = () => {
+  getAnswerFlattened() {
     let answer: { [key: string]: any } = {};
     for (const page of this.pages) {
       answer = {
@@ -171,7 +158,7 @@ export class Survey extends AbstractSurvey {
       };
     }
     return answer;
-  };
+  }
 
   answerIsValid() {
     const results = [];
@@ -198,7 +185,7 @@ export class Survey extends AbstractSurvey {
 
   importFromJson(jsonContent: string): void {
     try {
-      let obj = JSON.parse(jsonContent);
+      const obj = JSON.parse(jsonContent);
       if (obj["type"] !== "survey") {
         throw Error("解析失败，此Json字符串不包含问卷内容！");
       }

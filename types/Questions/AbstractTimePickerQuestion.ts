@@ -34,6 +34,14 @@ export abstract class AbstractTimePickerQuestion extends AbstractQuestion implem
   format: string;
   notAfter: string | null;
   notBefore: string | null;
+
+  /**
+   * 构造函数
+   * @param questionType 问题类型
+   * @param option 问题配置
+   * @param id 问题ID
+   * @protected
+   */
   protected constructor(
     questionType: QuestionType,
     option: QuestionInfo & TimePickerQuestionInfo,
