@@ -58,7 +58,11 @@ export class RadioGroupQuestion extends AbstractQuestion {
         validatedData: this.answer,
       });
     }
-    if (this.answer && !this.choices.map((item) => item.key).includes(this.answer)) {
+    if (
+      this.answer &&
+      !this.choices.map((item) => item.key).includes(this.answer) &&
+      !this.answer.startsWith("other:")
+    ) {
       errors.push({
         elementId: this.id,
         msg: `已选选项${this.answer}不在可选选项内！`,
