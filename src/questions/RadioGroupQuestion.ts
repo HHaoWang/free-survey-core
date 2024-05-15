@@ -69,6 +69,20 @@ export class RadioGroupQuestion extends AbstractQuestion {
         validatedData: this.answer,
       });
     }
+    if (this.answer && this.answer.startsWith("other:") && !this.allowOther) {
+      errors.push({
+        elementId: this.id,
+        msg: `不允许填写“其它”选项！`,
+        validatedData: this.answer,
+      });
+    }
+    if (this.answer && this.answer.startsWith("other:") && this.answer.length <= 6) {
+      errors.push({
+        elementId: this.id,
+        msg: `“其它”选项内容不能为空！`,
+        validatedData: this.answer,
+      });
+    }
     return errors.length > 0 ? Promise.resolve(errors) : Promise.resolve(true);
   }
 }
