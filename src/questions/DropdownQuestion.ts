@@ -12,7 +12,14 @@ export class DropdownQuestion extends AbstractQuestion {
    */
   declare answer: string | undefined;
 
-  constructor(id: string | null = null, options: Partial<QuestionInfo> = {}) {
+  constructor(
+    id: string | null = null,
+    options: Partial<
+      QuestionInfo & {
+        choices: Array<KeyValuePair>;
+      }
+    > = {},
+  ) {
     const option = {
       isDecoration: false,
       title: "问题",
@@ -27,6 +34,7 @@ export class DropdownQuestion extends AbstractQuestion {
       ...options,
     };
     super("dropdown", option, id);
+    this.choices = option.choices || [];
   }
 
   static parse(obj: any): AbstractQuestion {
