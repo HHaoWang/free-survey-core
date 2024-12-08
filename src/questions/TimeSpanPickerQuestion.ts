@@ -1,6 +1,6 @@
 import { AbstractQuestion, QuestionInfo } from "../../types";
 import { AbstractTimePickerQuestion, TimePickerQuestionInfo } from "../../types/Questions/AbstractTimePickerQuestion";
-import { ValidationError } from "../../types/Common";
+import { ValidationError } from "../../types";
 import { LocalDate, LocalTime, ZonedDateTime } from "@js-joda/core";
 
 export class TimeSpanPickerQuestion extends AbstractTimePickerQuestion {
@@ -100,5 +100,9 @@ export class TimeSpanPickerQuestion extends AbstractTimePickerQuestion {
     }
 
     return errors.length > 0 ? Promise.resolve(errors) : Promise.resolve(true);
+  }
+
+  getAnswerTextFromValue(answerValue: string[]): string[] {
+    return answerValue;
   }
 }

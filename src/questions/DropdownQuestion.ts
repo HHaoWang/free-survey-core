@@ -1,5 +1,5 @@
 import { AbstractQuestion, KeyValuePair, QuestionInfo } from "../../types";
-import { ValidationError } from "../../types/Common";
+import { ValidationError } from "../../types";
 
 export class DropdownQuestion extends AbstractQuestion {
   /**
@@ -61,5 +61,9 @@ export class DropdownQuestion extends AbstractQuestion {
       });
     }
     return errors.length > 0 ? Promise.resolve(errors) : Promise.resolve(true);
+  }
+
+  getAnswerTextFromValue(answerValue: string): string | string[] {
+    return this.choices.find((p) => p.key === answerValue)?.value ?? answerValue;
   }
 }

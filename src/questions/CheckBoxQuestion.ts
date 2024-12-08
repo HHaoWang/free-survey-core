@@ -1,5 +1,5 @@
 import { AbstractQuestion, KeyValuePair, QuestionInfo } from "../../types";
-import { ValidationError } from "../../types/Common";
+import { ValidationError } from "../../types";
 
 /**
  * 多选问题
@@ -100,5 +100,14 @@ export class CheckBoxQuestion extends AbstractQuestion {
       });
     }
     return errors.length > 0 ? Promise.resolve(errors) : Promise.resolve(true);
+  }
+
+  getAnswerTextFromValue(answerValue: string | string[]): string | string[] {
+    if (Array.isArray(answerValue)) {
+      return answerValue.map((val) => {
+        return this.choices.find((p) => p.key === val)?.value ?? val;
+      });
+    }
+    return this.choices.find((p) => p.key === answerValue)?.value ?? answerValue;
   }
 }

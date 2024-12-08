@@ -1,6 +1,6 @@
 import { AbstractQuestion, QuestionInfo } from "../../types";
 import { tryGetQuestionInfoValue } from "../utils/TypeUtils";
-import { ValidationError } from "../../types/Common";
+import { ValidationError } from "../../types";
 
 export class SingleTextQuestion extends AbstractQuestion {
   declare answer: string;
@@ -67,5 +67,9 @@ export class SingleTextQuestion extends AbstractQuestion {
     }
 
     return errors.length > 0 ? Promise.resolve(errors) : Promise.resolve(true);
+  }
+
+  getAnswerTextFromValue(answerValue: string): string | string[] {
+    return String(answerValue);
   }
 }

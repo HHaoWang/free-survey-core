@@ -70,4 +70,14 @@ export abstract class AbstractQuestion extends AbstractPageElement implements Qu
 
     this.answer = this.defaultValue;
   }
+
+  /**
+   * 获取所给答案值在该问题下的字面形式<br>
+   * e.g radioGroup 0->是 1->否<br>
+   * 当具体的问题类型没有实现这一方法时，会按原样返回参数值
+   * @param answerValue 需要获取对应字面形式的答案值
+   */
+  public getAnswerTextFromValue(answerValue: unknown): string | string[] {
+    return answerValue as string;
+  }
 }
