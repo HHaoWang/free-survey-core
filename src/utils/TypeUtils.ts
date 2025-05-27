@@ -28,7 +28,7 @@ export function tryGetSpecifiedTypeValue(obj: any, keyName: string, type: string
 }
 
 export function tryGetQuestionInfoValue(obj: any): Partial<QuestionInfo> {
-  const definition: { [key: string]: string } = QuestionInfoDefinition as any;
+  const definition: { [key: string]: string } = QuestionInfoDefinition as { [key: string]: string };
   const info: { [key: string]: any } = {};
   for (const prop in definition) {
     const value = tryGetSpecifiedTypeValue(obj, prop, definition[prop]);

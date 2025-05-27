@@ -73,7 +73,7 @@ export type Parser = (obj: any) => AbstractQuestion;
 |    时间选择(TimePicker)    |    ✅    |          |
 | 时间段选择(TimeSpanPicker) |    ✅    |          |
 |      分割线(Splitter)      |    ✅    |          |
-|         文件(File)         |    ❌    |    ✅    |
+|         文件(File)         |    ✅    |          |
 
 ## 注意
 

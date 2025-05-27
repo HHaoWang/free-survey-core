@@ -1,9 +1,5 @@
-import { factory, detectPrng } from "ulid";
+import { ulid } from "ulid";
 import { ValidationError } from "./Common";
-
-// 启用不安全的Math.random，因为我们不需要其作为加密算法的一部分，而只是需要一个随机数生成器
-const prng = detectPrng(true);
-const ulid = factory(prng);
 
 export abstract class AbstractElement {
   public "type": ElementType;

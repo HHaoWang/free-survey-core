@@ -18,5 +18,6 @@ export { TimePickerQuestion } from "./questions/TimePickerQuestion";
 export { TimeSpanPickerQuestion } from "./questions/TimeSpanPickerQuestion";
 export { SingleTextQuestion } from "./questions/SingleTextQuestion";
 export { RadioGroupQuestion } from "./questions/RadioGroupQuestion";
+export { FileQuestion } from "./questions/FileQuestion";
 
 export { Splitter } from "./decoration-question/Splitter";
