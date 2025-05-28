@@ -1,9 +1,9 @@
 import { AbstractQuestion, KeyValuePair, QuestionInfo, ValidationError } from "../../types";
 
 export class FileQuestion extends AbstractQuestion {
-  multiple: boolean = false;
   acceptFileTypes: string[] = [];
-  maxFileSize: number = 0; // in bytes
+  maxFileSize: number = 5120; // in KiB
+  maxFileCount: number = 1; // 最多上传多少个文件
 
   /**
    * 文件链接列表
@@ -18,7 +18,9 @@ export class FileQuestion extends AbstractQuestion {
     id: string | null = null,
     options: Partial<
       QuestionInfo & {
-        choices: Array<KeyValuePair>;
+        maxFileSize: number; // in KiB
+        acceptFileTypes: string[]; // 后缀名，带点
+        maxFileCount: number; // 最多上传多少个文件
       }
     > = {},
   ) {
